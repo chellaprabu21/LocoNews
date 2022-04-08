@@ -20,16 +20,6 @@ class CountryVC: UIViewController {
         countryCollection.delegate = self
         
     }
-
-
-//    @IBAction func didTapSegment(_ sender: Any) {
-//        
-//        let sender = sender as! UISegmentedControl
-//        
-//        if sender.selectedSegmentIndex == 1 {
-//            print("test")
-//        }
-//    }
 }
 
 extension CountryVC: UICollectionViewDelegate,UICollectionViewDataSource{
@@ -73,4 +63,3 @@ extension CountryVC: UICollectionViewDelegate,UICollectionViewDataSource{
     }
     
 }
-

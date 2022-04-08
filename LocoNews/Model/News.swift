@@ -14,14 +14,19 @@ struct News: Codable {
 
 // MARK: - Article
 struct Article: Codable {
-    let source: Source?
     let author: String?
     let title: String
     let url: String
+    let source: Source
 }
 
 // MARK: - Source
 struct Source: Codable {
     let id: String?
     let name: String?
+}
+
+
+struct Channel: Codable {
+    let sources: [Source]
 }

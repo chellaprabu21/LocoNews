@@ -13,8 +13,35 @@ class APIManager {
         
     let urlSession = URLSession.shared
     let baseUrl = "https://newsapi.org/v2/"
-    public let apiKey = "470dcd0ceba74720b303a7ec244fdbd3"
+    public let apiKey = "4243c683130949e59b12e31c266bc04f"
     
+    func getSearch(forText text:String, _ completion: @escaping ([Article]) -> Void){
+        let request = getRequest(.everything(search: text))
+        
+        let task = urlSession.dataTask(with: request) { data, response, error in
+            
+            do{
+            let jsonObject = try JSONSerialization.jsonObject(with: data!)
+            }
+            catch{
+                
+            }
+            
+            guard let safeData = data else { return }
+            
+            do{
+            let result = try JSONDecoder().decode(News.self, from: safeData)
+                print(result)
+                completion(result.articles)
+            }
+            catch{
+                
+            }
+            
+        }
+        
+        task.resume()
+    }
     func getNews(forPage page:Int = 1,forCountry country: String?, _ completion: @escaping ([Article]) -> Void){
         let request = getRequest(.headlines(page: page, country: country))
         
@@ -42,6 +69,28 @@ class APIManager {
         
         task.resume()
     }
+    
+    
+    func getSource( _ completion: @escaping ([Source]) -> Void){
+        let request = getRequest(.source)
+        
+        let task = urlSession.dataTask(with: request) { data, response, error in
+
+            guard let safeData = data else { return }
+            
+            do{
+                let result = try JSONDecoder().decode(Channel.self, from: safeData)
+                print(result)
+                completion(result.sources)
+            }
+            catch{
+                
+            }
+            
+        }
+        
+        task.resume()
+    }
 }
 
 
@@ -51,7 +100,7 @@ extension APIManager{
     
     enum APIParams{
         case headlines(page: Int, country: String?)
-        case everything
+        case everything(search: String)
         case source
         
         func getPath() -> String{
@@ -70,8 +119,8 @@ extension APIManager{
             case .headlines(let page, let country):
                 return ["country": country ?? "in",
                         "page": "\(page)"]
-            case .everything:
-                return ["q" : "test"]
+            case .everything(let search):
+                return ["q" : search]
                 
             case .source:
                 return ["country": "in",
@@ -83,7 +132,7 @@ extension APIManager{
             var parameterArray = getParam().map{ key, value in
                 return "\(key)=\(value)"
             }
-            parameterArray.append("apiKey=470dcd0ceba74720b303a7ec244fdbd3")
+            parameterArray.append("apiKey=4243c683130949e59b12e31c266bc04f")
             return parameterArray.joined(separator: "&")
         }
     }

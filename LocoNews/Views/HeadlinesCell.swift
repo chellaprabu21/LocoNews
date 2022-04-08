@@ -23,7 +23,7 @@ class HeadlinesCell: UITableViewCell {
         sourceText.translatesAutoresizingMaskIntoConstraints = false
         
         headlineText.text = news.title
-        sourceText.text = news.source?.name
+        sourceText.text = news.source.name
     }
 
 }

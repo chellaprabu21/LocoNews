@@ -9,6 +9,7 @@ import UIKit
 
 class TabBarController: UITabBarController {
 
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -24,26 +25,24 @@ class TabBarController: UITabBarController {
             switch index{
             case 0:
                 viewController.tabBarItem.title = "Headlines"
+                viewController.navigationController?.navigationBar.topItem?.title = "Headlines"
+                viewController.tabBarItem.tag = 0
                 viewController.tabBarItem.setTitleTextAttributes([.font: UIFont.systemFont(ofSize: 15)], for: .normal)
             case 1:
                 viewController.tabBarItem.title = "Contries"
+                viewController.navigationController?.navigationBar.topItem?.title = "Countries"
                 viewController.tabBarItem.setTitleTextAttributes([.font: UIFont.systemFont(ofSize: 15)], for: .normal)
+                viewController.tabBarItem.tag = 1
             case 2:
                 viewController.tabBarItem.title = "Search"
+                viewController.navigationController?.navigationBar.topItem?.title = "Search"
                 viewController.tabBarItem.setTitleTextAttributes([.font: UIFont.systemFont(ofSize: 15)], for: .normal)
+                viewController.tabBarItem.tag = 2
             default:
                 viewController.tabBarItem.setTitleTextAttributes([.font: UIFont.systemFont(ofSize: 15)], for: .normal)
             }
         }
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
+
+
