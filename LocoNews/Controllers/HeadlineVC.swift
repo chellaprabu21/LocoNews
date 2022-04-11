@@ -32,15 +32,20 @@ class HeadlineVC: UIViewController {
         headLineTable.dataSource = self
         searchBar.delegate = self
         searchBar.placeholder = "Search for news"
+        self.tabBarController?.delegate = self
     }
     
+   
     override func viewWillAppear(_ animated: Bool) {
         
         if let tabbar = self.navigationController?.tabBarItem{
             tabSeleted = tabbar.tag
         }
         
-        news.removeAll()
+        DispatchQueue.main.async {
+            self.news.removeAll()
+        }
+        
         if tabSeleted == 0{
             searchBar.isHidden = true
             self.navigationItem.title = "Headlines"
@@ -97,6 +102,11 @@ class HeadlineVC: UIViewController {
 
 }
 
+extension HeadlineVC: UITabBarControllerDelegate{
+    
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+    }
+}
 
 extension HeadlineVC: UISearchBarDelegate{
     
@@ -110,7 +120,6 @@ extension HeadlineVC: UISearchBarDelegate{
         let searchQueryText = searchBar.text!
         searchBar.endEditing(true)
         
-        print(searchQueryText)
         
         news.removeAll()
         triggerSearch(searchQueryText)
@@ -132,7 +141,7 @@ extension HeadlineVC : UIScrollViewDelegate{
         let pos = scrollView.contentOffset.y
         
         if pos > headLineTable.contentSize.height-100-scrollView.frame.size.height{
-            triggerData()
+//            if tabSeleted == 0 { triggerData() }
         }
     }
 }
@@ -155,7 +164,7 @@ extension HeadlineVC : UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // To display the actual html of the story
-        
+        print(news)
         let path = news[indexPath.row].url
         
         let vc = SFSafariViewController(url: getWebPage(from: path))
