@@ -10,10 +10,12 @@ import Foundation
 struct Country {
     static let list: [String:String] = ["India" : "in",
                        "United States" : "us",
-                       "United Kingdom" : "uk",
+                       "Brazil" : "br",
                        "Japan" : "jp",
                        "Canada" : "ca",
                        "Russia" : "ru",
                        "Australia" : "au",
-                       "UAE" : "ae"]
+                       "UAE" : "ae",
+                                        "France" : "fr",
+                                        "Morocco" : "mr"]
 }

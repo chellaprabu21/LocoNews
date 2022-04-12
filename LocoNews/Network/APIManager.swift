@@ -73,9 +73,9 @@ class APIManager {
         let request = getRequest(.source)
         
         let task = urlSession.dataTask(with: request) { data, response, error in
+            print(error)
 
             guard let safeData = data else { return }
-            
             do{
                 let result = try JSONDecoder().decode(Channel.self, from: safeData)
                 completion(result.sources)

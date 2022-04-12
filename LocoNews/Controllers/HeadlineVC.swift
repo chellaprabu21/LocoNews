@@ -14,8 +14,12 @@ class HeadlineVC: UIViewController {
     
     @IBOutlet weak var searchBar: UISearchBar!
     
-    @IBOutlet weak var segment: UISegmentedControl!
+    @IBOutlet var containerView: UIView!
+    @IBOutlet weak var headlineView: UIView!
+    var sourceView: SourceView = SourceView()
     
+    @IBOutlet weak var segment: UISegmentedControl!
+        
     var news: [Article] = []
     var country: String?
     var page = 0
@@ -28,6 +32,9 @@ class HeadlineVC: UIViewController {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
+        
+        containerView.addSubview(sourceView)
+        sourceView.isHidden = true
         
         segment.isHidden = true
         headLineTable.delegate = self
@@ -82,19 +89,22 @@ class HeadlineVC: UIViewController {
     
     @IBAction func didTapSegment(_ sender: UISegmentedControl) {
         
-        if sender.selectedSegmentIndex == 1{
-            if let navController = self.navigationController {
-               let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                let vc = storyboard.instantiateViewController(withIdentifier: "SourceVC")
-                self.present(vc, animated: true)
-            }
+        switch sender.selectedSegmentIndex {
+        case 0:
+            sourceView.isHidden = true
+            headlineView.isHidden = false
+        case 1:
+            sourceView.isHidden = false
+            headlineView.isHidden = true
+        default:
+            break;
         }
         
     }
     
     private func triggerData(){
         
-        APIManager.shared.getNews(forPage: increamentPage(), forCountry: country) { result in 
+        APIManager.shared.getNews(forPage: increamentPage(), forCountry: country) { result in
             self.news += result
             DispatchQueue.main.async {
                 self.headLineTable.reloadData()
