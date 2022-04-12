@@ -13,7 +13,7 @@ class APIManager {
         
     let urlSession = URLSession.shared
     let baseUrl = "https://newsapi.org/v2/"
-    public let apiKey = "5ee38b61211e44748d252f4b704406c7"
+    public let apiKey = "4243c683130949e59b12e31c266bc04f"
     
     func getSearch(forText text:String, _ completion: @escaping ([Article]) -> Void){
         let request = getRequest(.everything(search: text))
@@ -129,7 +129,7 @@ extension APIManager{
             var parameterArray = getParam().map{ key, value in
                 return "\(key)=\(value)"
             }
-            parameterArray.append("apiKey=5ee38b61211e44748d252f4b704406c7")
+            parameterArray.append("apiKey=4243c683130949e59b12e31c266bc04f")
             return parameterArray.joined(separator: "&")
         }
     }
