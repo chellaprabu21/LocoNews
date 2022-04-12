@@ -21,16 +21,6 @@ class SourceVC: UIViewController {
         sourceTable.delegate = self
         sourceTable.dataSource = self
     }
-    
-    private func triggerData(){
-        
-        APIManager.shared.getSource() { result in
-            self.source += result
-            DispatchQueue.main.async {
-                self.sourceTable.reloadData()
-            }
-        }
-    }
 
 }
 

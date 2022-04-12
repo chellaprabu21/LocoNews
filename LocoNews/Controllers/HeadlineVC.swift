@@ -16,7 +16,7 @@ class HeadlineVC: UIViewController {
     
     @IBOutlet var containerView: UIView!
     @IBOutlet weak var headlineView: UIView!
-    var sourceView: SourceView = SourceView()
+    var sourceView: SourceView!
     
     @IBOutlet weak var segment: UISegmentedControl!
         
@@ -33,6 +33,7 @@ class HeadlineVC: UIViewController {
         
         // Do any additional setup after loading the view.
         
+        sourceView =  SourceView(frame: headlineView.frame, country: country ?? "in")
         containerView.addSubview(sourceView)
         sourceView.isHidden = true
         

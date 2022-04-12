@@ -69,11 +69,10 @@ class APIManager {
     }
     
     
-    func getSource( _ completion: @escaping ([Source]) -> Void){
-        let request = getRequest(.source)
+    func getSource( forCountry country: String?, _ completion: @escaping ([Source]) -> Void){
+        let request = getRequest(.source(country: country))
         
         let task = urlSession.dataTask(with: request) { data, response, error in
-            print(error)
 
             guard let safeData = data else { return }
             do{
@@ -98,7 +97,7 @@ extension APIManager{
     enum APIParams{
         case headlines(page: Int, country: String?)
         case everything(search: String)
-        case source
+        case source(country: String?)
         
         func getPath() -> String{
             switch self{
@@ -119,8 +118,8 @@ extension APIManager{
             case .everything(let search):
                 return ["q" : search]
                 
-            case .source:
-                return ["country": "in",
+            case .source(let country):
+                return ["country": country ?? "in",
                         "pageSize": "10"]
             }
         }

@@ -10,24 +10,25 @@ import UIKit
 class SourceView: UIView, UITableViewDataSource, UITableViewDelegate {
 
     var tableView = UITableView()
-
+    var countryName = "in"
     let screenHeight = UIScreen.main.bounds.height
     let screenWidth = UIScreen.main.bounds.width
     var source: [Source] = []
 
-    override init(frame: CGRect){
+    init(frame: CGRect, country: String){
         super.init(frame: frame)
-        
             setup()
+            countryName = country
             tableView.delegate = self
             tableView.dataSource = self
             tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
 
     }
+    
 
     private func triggerSource(){
         
-        APIManager.shared.getSource() { result in
+        APIManager.shared.getSource(forCountry: countryName) { result in
             self.source += result
             DispatchQueue.main.async {
                 self.tableView.reloadData()
@@ -36,7 +37,7 @@ class SourceView: UIView, UITableViewDataSource, UITableViewDelegate {
     }
     func setup() {
 
-//        triggerSource()
+        triggerSource()
         self.backgroundColor = UIColor.black
 
         tableView = UITableView(frame: CGRect(x: 0, y: 0, width: screenWidth*0.5, height: screenHeight))
@@ -46,14 +47,14 @@ class SourceView: UIView, UITableViewDataSource, UITableViewDelegate {
 
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return source.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath as IndexPath) as UITableViewCell
         
-//        cell.textLabel?.text = source[indexPath.row].name
-        cell.textLabel?.text = "Test"
+        cell.textLabel?.text = source[indexPath.row].name
+//        cell.textLabel?.text = "Test"
 
         return cell
     }
