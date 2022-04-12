@@ -141,13 +141,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="M8L-A0-7tK">
-                                <rect key="frame" x="20" y="36" width="374" height="777"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="M8L-A0-7tK">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
                                 <subviews>
-                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="DyG-PM-HDK">
-                                        <rect key="frame" x="-20" y="67" width="414" height="710"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="DyG-PM-HDK">
+                                        <rect key="frame" x="0.0" y="147" width="414" height="666"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="newsCell" rowHeight="200" id="Jj6-14-cF5" customClass="HeadlinesCell" customModule="LocoNews" customModuleProvider="target">
@@ -186,17 +184,32 @@
                                             </tableViewCell>
                                         </prototypes>
                                     </tableView>
-                                    <searchBar contentMode="redraw" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="poy-Ob-55U">
-                                        <rect key="frame" x="-20" y="363" width="414" height="51"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="poy-Ob-55U">
+                                        <rect key="frame" x="0.0" y="96" width="414" height="51"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </searchBar>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="poy-Ob-55U" firstAttribute="top" secondItem="M8L-A0-7tK" secondAttribute="top" constant="96" id="ExN-9W-1X2"/>
+                                    <constraint firstItem="DyG-PM-HDK" firstAttribute="top" secondItem="poy-Ob-55U" secondAttribute="bottom" id="FLq-wz-NJz"/>
+                                    <constraint firstItem="DyG-PM-HDK" firstAttribute="leading" secondItem="M8L-A0-7tK" secondAttribute="leading" id="H6k-ni-7bS"/>
+                                    <constraint firstAttribute="trailing" secondItem="poy-Ob-55U" secondAttribute="trailing" id="KJT-7i-NL5"/>
+                                    <constraint firstAttribute="bottom" secondItem="DyG-PM-HDK" secondAttribute="bottom" id="d87-qf-r07"/>
+                                    <constraint firstItem="poy-Ob-55U" firstAttribute="leading" secondItem="M8L-A0-7tK" secondAttribute="leading" id="sM3-Nh-r6L"/>
+                                    <constraint firstItem="DyG-PM-HDK" firstAttribute="top" secondItem="poy-Ob-55U" secondAttribute="bottom" id="uTX-yb-Jvh"/>
+                                    <constraint firstAttribute="trailing" secondItem="DyG-PM-HDK" secondAttribute="trailing" id="yHg-pK-TsT"/>
+                                </constraints>
                             </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="ys3-ni-pH8"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="M8L-A0-7tK" firstAttribute="bottom" secondItem="ys3-ni-pH8" secondAttribute="bottom" id="7iU-iq-PTL"/>
+                            <constraint firstItem="M8L-A0-7tK" firstAttribute="leading" secondItem="ys3-ni-pH8" secondAttribute="leading" id="R53-cq-Knt"/>
+                            <constraint firstItem="ys3-ni-pH8" firstAttribute="trailing" secondItem="M8L-A0-7tK" secondAttribute="trailing" id="SNi-rK-RfE"/>
+                            <constraint firstItem="M8L-A0-7tK" firstAttribute="top" secondItem="ZKW-Be-59Q" secondAttribute="top" id="obt-PS-kDJ"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="O20-QO-1mo">
                         <nil key="title"/>
