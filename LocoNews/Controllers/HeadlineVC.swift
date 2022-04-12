@@ -21,10 +21,12 @@ class HeadlineVC: UIViewController {
     var page = 0
     var hideSegment = true
     var tabSeleted = 0
+    var tabChanged = false
+    var syncQ = DispatchQueue(label:"NewsDeletion")
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
         
         segment.isHidden = true
@@ -36,22 +38,32 @@ class HeadlineVC: UIViewController {
     }
     
    
-    override func viewWillAppear(_ animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         
         if let tabbar = self.navigationController?.tabBarItem{
             tabSeleted = tabbar.tag
         }
         
-        DispatchQueue.main.async {
-            self.news.removeAll()
-        }
+
         
         if tabSeleted == 0{
+            
+            if tabChanged{
+                news.removeAll()
+                tabChanged = false
+                triggerData()
+            }
             searchBar.isHidden = true
             self.navigationItem.title = "Headlines"
-            triggerData()
+            lazy var once: Void = {
+                triggerData()
+            }()
+            _ = once
         }
         else if tabSeleted == 1{
+            syncQ.sync {
+                self.news.removeAll()
+            }
             searchBar.isHidden = true
             segment.isHidden = false
             self.navigationItem.title = "Countries"
@@ -105,6 +117,7 @@ class HeadlineVC: UIViewController {
 extension HeadlineVC: UITabBarControllerDelegate{
     
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        tabChanged = true
     }
 }
 
@@ -170,6 +183,8 @@ extension HeadlineVC : UITableViewDelegate, UITableViewDataSource{
         let vc = SFSafariViewController(url: getWebPage(from: path))
         
         self.navigationController?.pushViewController(vc, animated: true)
+        
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     func getWebPage(from url: String)-> URL {
