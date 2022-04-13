@@ -26,8 +26,9 @@ class SourceView: UIView, UITableViewDataSource, UITableViewDelegate {
     }
     
 
-    private func triggerSource(){
+    public func triggerSource(){
         
+        source.removeAll()
         APIManager.shared.getSource(forCountry: countryName) { result in
             self.source += result
             DispatchQueue.main.async {
@@ -45,7 +46,6 @@ class SourceView: UIView, UITableViewDataSource, UITableViewDelegate {
         self.addSubview(tableView)
     }
 
-
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return source.count
     }
@@ -54,7 +54,6 @@ class SourceView: UIView, UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath as IndexPath) as UITableViewCell
         
         cell.textLabel?.text = source[indexPath.row].name
-//        cell.textLabel?.text = "Test"
 
         return cell
     }
@@ -62,4 +61,11 @@ class SourceView: UIView, UITableViewDataSource, UITableViewDelegate {
         fatalError("init(coder:) has not been implemented")
     }
 
+}
+
+extension SourceView: CountryDelegate{
+    func didChangeCountry(country: String) {
+        countryName = country
+        triggerSource()
+    }
 }

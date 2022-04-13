@@ -95,6 +95,8 @@ class HeadlineVC: UIViewController {
             sourceView.isHidden = true
             headlineView.isHidden = false
         case 1:
+            sourceView.countryName = country!
+            sourceView.triggerSource()
             sourceView.isHidden = false
             headlineView.isHidden = true
         default:
@@ -188,7 +190,6 @@ extension HeadlineVC : UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // To display the actual html of the story
-        print(news)
         let path = news[indexPath.row].url
         
         let vc = SFSafariViewController(url: getWebPage(from: path))

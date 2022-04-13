@@ -7,11 +7,16 @@
 
 import UIKit
 
+protocol CountryDelegate{
+    func didChangeCountry(country: String)
+}
+
 class CountryVC: UIViewController {
 
     @IBOutlet weak var countryCollection: UICollectionView!
     
     var selectedCountry: String?
+    var delegate: CountryDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,6 +63,7 @@ extension CountryVC: UICollectionViewDelegate,UICollectionViewDataSource{
         if segue.identifier == "headlineVC" {
              if let viewController = segue.destination as? HeadlineVC {
                  viewController.country = selectedCountry
+                 delegate?.didChangeCountry(country: selectedCountry!)
              }
          }
     }
