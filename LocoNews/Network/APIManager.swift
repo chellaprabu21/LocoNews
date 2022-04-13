@@ -13,7 +13,7 @@ class APIManager {
         
     let urlSession = URLSession.shared
     let baseUrl = "https://newsapi.org/v2/"
-    public let apiKey = "4243c683130949e59b12e31c266bc04f"
+    public let apiKey = "4dc2d018f08d4fa483d2368d9fbbcb7c"
     
     func getSearch(forText text:String, _ completion: @escaping ([Article]) -> Void){
         let request = getRequest(.everything(search: text))
@@ -41,11 +41,12 @@ class APIManager {
         
         task.resume()
     }
-    func getNews(forPage page:Int = 1,forCountry country: String?, _ completion: @escaping ([Article]) -> Void){
-        let request = getRequest(.headlines(page: page, country: country))
+    func getNews(forPage page:Int = 1,forCountry country: String?,forSource source: String?, _ completion: @escaping ([Article]) -> Void){
+        let request = getRequest(.headlines(page: page, country: country, source: source))
         
         let task = urlSession.dataTask(with: request) { data, response, error in
             
+            print(error,response,data)
             do{
             let jsonObject = try JSONSerialization.jsonObject(with: data!)
             }
@@ -58,6 +59,7 @@ class APIManager {
             do{
             let result = try JSONDecoder().decode(News.self, from: safeData)
                 completion(result.articles)
+    
             }
             catch{
                 
@@ -95,7 +97,7 @@ class APIManager {
 extension APIManager{
     
     enum APIParams{
-        case headlines(page: Int, country: String?)
+        case headlines(page: Int, country: String?, source:String?)
         case everything(search: String)
         case source(country: String?)
         
@@ -112,9 +114,14 @@ extension APIManager{
         
         func getParam() -> [String:String]{
             switch self {
-            case .headlines(let page, let country):
-                return ["country": country ?? "in",
-                        "page": "\(page)"]
+            case .headlines(let page, let country, let source):
+                var params: [String:String] = ["page": "\(page)"]
+                params.updateValue(country ?? "in", forKey: "country")
+                if let source = source{
+                    params.updateValue(source, forKey: "source")
+                }
+                print(params)
+                return params
             case .everything(let search):
                 return ["q" : search]
                 
@@ -128,7 +135,7 @@ extension APIManager{
             var parameterArray = getParam().map{ key, value in
                 return "\(key)=\(value)"
             }
-            parameterArray.append("apiKey=4243c683130949e59b12e31c266bc04f")
+            parameterArray.append("apiKey=4dc2d018f08d4fa483d2368d9fbbcb7c")
             return parameterArray.joined(separator: "&")
         }
     }

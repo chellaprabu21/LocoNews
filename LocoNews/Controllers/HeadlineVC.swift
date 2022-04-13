@@ -27,6 +27,8 @@ class HeadlineVC: UIViewController {
     var tabSeleted = 0
     var tabChanged = false
     var syncQ = DispatchQueue(label:"NewsDeletion")
+    var isChannelCountry = false
+    var sourceName: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,6 +57,11 @@ class HeadlineVC: UIViewController {
             let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
             let vc: HeadlineVC = storyboard.instantiateViewController(withIdentifier: "headlineVC") as! HeadlineVC
             vc.segment.isHidden = true
+            vc.isChannelCountry = true
+            vc.sourceName = id
+            if let country = not.userInfo?["Country"] as? String{
+                vc.country = country
+            }
             self.navigationController?.pushViewController(vc, animated: true)
           }
     }
@@ -65,8 +72,11 @@ class HeadlineVC: UIViewController {
             tabSeleted = tabbar.tag
         }
         
-
-        
+        if isChannelCountry {
+            triggerChannelHeadlines()
+            segment.isHidden = true
+        }
+        else{
         if tabSeleted == 0{
             
             if tabChanged{
@@ -94,6 +104,7 @@ class HeadlineVC: UIViewController {
             self.navigationItem.title = "Search"
             searchBar.isHidden = false
         }
+        }
     }
 
     func increamentPage() -> Int{
@@ -118,9 +129,17 @@ class HeadlineVC: UIViewController {
         
     }
     
+    private func triggerChannelHeadlines(){
+        APIManager.shared.getNews(forPage: increamentPage(), forCountry: nil, forSource: sourceName) { result in
+            self.news += result
+            DispatchQueue.main.async {
+                self.headLineTable.reloadData()
+            }
+        }
+    }
     private func triggerData(){
         
-        APIManager.shared.getNews(forPage: increamentPage(), forCountry: country) { result in
+        APIManager.shared.getNews(forPage: increamentPage(), forCountry: country, forSource: nil) { result in
             self.news += result
             DispatchQueue.main.async {
                 self.headLineTable.reloadData()

@@ -14,7 +14,8 @@ class SourceView: UIView{
     let screenHeight = UIScreen.main.bounds.height
     let screenWidth = UIScreen.main.bounds.width
     var source: [Source] = []
-
+    var country: String?
+    
     init(frame: CGRect, country: String){
         super.init(frame: frame)
             setup()
@@ -30,6 +31,7 @@ class SourceView: UIView{
         
         source.removeAll()
         APIManager.shared.getSource(forCountry: countryName) { result in
+            self.country = self.countryName
             self.source += result
             DispatchQueue.main.async {
                 self.tableView.reloadData()
@@ -63,7 +65,8 @@ extension SourceView: UITableViewDataSource, UITableViewDelegate{
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let countryDict:[String: String] = ["Channel": source[indexPath.row].name!,
-                                            "ChannelId": source[indexPath.row].id!]
+                                            "ChannelId": source[indexPath.row].id!,
+                                            "Country" : country ?? "in"]
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "showChannelHeadlines"),
                                                         object: nil,
                                                         userInfo: countryDict)
