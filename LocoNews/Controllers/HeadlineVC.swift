@@ -34,6 +34,11 @@ class HeadlineVC: UIViewController {
         // Do any additional setup after loading the view.
         
         sourceView =  SourceView(frame: headlineView.frame, country: country ?? "in")
+        NotificationCenter.default.addObserver(self,
+                                                selector: #selector(self.channelHeadlines),
+                                                         name: NSNotification.Name(rawValue: "showChannelHeadlines"),
+                                                         object: nil)
+        
         containerView.addSubview(sourceView)
         sourceView.isHidden = true
         
@@ -45,7 +50,15 @@ class HeadlineVC: UIViewController {
         self.tabBarController?.delegate = self
     }
     
-   
+    @objc private func channelHeadlines(not: NSNotification){
+        if let id = not.userInfo?["ChannelId"] as? String {
+            let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let vc: HeadlineVC = storyboard.instantiateViewController(withIdentifier: "headlineVC") as! HeadlineVC
+            vc.segment.isHidden = true
+            self.navigationController?.pushViewController(vc, animated: true)
+          }
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         
         if let tabbar = self.navigationController?.tabBarItem{
